@@ -8,6 +8,7 @@ Instructions:
 1. Any processed data should be added to ```preprocessed_data/```. Make sure to define the path variable in config.py file
 1. Evaluation files in ```evaluation``` folder. 
 
+
 Guides to git workflow:
 
 1. https://gist.github.com/Chaser324/ce0505fbed06b947d962
