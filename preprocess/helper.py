@@ -103,8 +103,9 @@ def prepare_splits(mode='dev'):
 
 if __name__=='__main__':
     # process_rawdf_to_pkl()
-    build_sample_data(k=10_000)
+    # build_sample_data(k=10_000)
 
     # prepare_splits('train')
     # prepare_splits('dev')
     # prepare_splits('test')
+    pass
