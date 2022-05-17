@@ -1,5 +1,7 @@
+import enum
 from transformers import AutoTokenizer, AutoModel
 import torch
+import numpy as np
 import warnings
 warnings.filterwarnings("ignore")
 
@@ -19,26 +21,38 @@ class FeatureExtractor:
             tokenize sentence and extract contextual feature of a word from a sentence
         '''
 
-        sentence = "[CLS] " + sentence.lower() + " [SEP]" 
+        sentence = sentence.lower().split()
 
+        word_idx_in_sentence = -1
         # tokens = self.tokenizer.convert_ids_to_tokens(input_ids[i])
-        sent_token_ids = self.tokenizer.encode_plus(sentence, add_special_tokens=True, 
-                                return_attention_mask=True, pad_to_max_length=True, 
-                                max_length=256, return_tensors='pt')['input_ids']
-        
-        with torch.no_grad():
-            sent_feature = self.model(sent_token_ids)['last_hidden_state']
-        id_ = self.tokenizer.vocab.get(word,None)
-
-        if id_ == None:
-            # word_tokens  = self.tokenizer.tokenize(targets[i]) ### gooder --> good, ##er
-            word_token_ids = self.tokenizer.encode_plus(word)['input_ids'][1:-1]
-            id_ = word_token_ids[0]
-
-        for idx,tok_id in enumerate(sent_token_ids[0]):
-            if tok_id == id_:
-                token_feature = sent_feature[0,idx,:]
+        for idx,w in enumerate(sentence):
+            
+            if w.startswith(word):
+                word_idx_in_sentence = idx
                 break
-        
-        return token_feature
+
+        if word_idx_in_sentence == -1:
+            return ''
+
+        # print (sentence,word)
+        sent_tokenized = self.tokenizer(sentence, return_offsets_mapping=True, is_split_into_words=True,return_tensors='pt')
+
+        with torch.no_grad():
+            sent_feature = self.model(sent_tokenized['input_ids'])['last_hidden_state']
+
+        tok_level_embs = []
+
+        for idx, id_ in enumerate(sent_tokenized.word_ids()):
+            if id_ == word_idx_in_sentence:
+                tok_level_embs.append(sent_feature[0,idx,:].numpy())
+
+        if len(tok_level_embs)==0:
+            return ''
+
+        return np.stack(tok_level_embs).mean(axis=0)
+
+
+
+    
+
 

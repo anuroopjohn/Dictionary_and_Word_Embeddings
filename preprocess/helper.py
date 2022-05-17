@@ -8,7 +8,7 @@ import pandas as pd
 # import faiss
 import json
 import pickle
-import Dictionary_and_Word_Embeddings.preprocess.config as config
+import preprocess.config as config
 
 import random
 random.seed(1234)
