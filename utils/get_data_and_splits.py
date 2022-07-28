@@ -1,7 +1,9 @@
 
 import os
 import sys
-sys.path.append('../../..')
+sys.path.append('..')
+sys.path.append('.')
+
 import pandas as pd
 import numpy as np
 import re
@@ -19,19 +21,9 @@ class LoadData:
         
 
 
-    def get_data(self, data_path):
+    def get_data(self, extra_data_path, extra_data=False):
         print('Start')
-        
-        #get extra data
-        with open(data_path, "rb") as f:
-            extra_data = np.array(cPickle.load(f))
 
-        zero_array = np.array([(extra_data[i]['fasttext'] != np.array([0]*300).astype('float32')).all() for i in tqdm(range(len(extra_data)))])
-
-        extra_data = pd.DataFrame.from_records(extra_data)
-
-        extra_data = extra_data[zero_array]
-        
         
         #train
         d = np.array(read_pickle_file(proc_paths['train']))
@@ -48,8 +40,19 @@ class LoadData:
         mask = np.array([(d[i]['fasttext'] != np.array([0]*300).astype('float32')).all() for i in tqdm(range(len(d)))])
         test = pd.DataFrame.from_records(d[mask])
         
+                
+        if extra_data:
+            #get extra data
+            with open(extra_data_path, "rb") as f:
+                extra_data = np.array(cPickle.load(f))
+
+            zero_array = np.array([(extra_data[i]['fasttext'] != np.array([0]*300).astype('float32')).all() for i in tqdm(range(len(extra_data)))])
+
+            extra_data = pd.DataFrame.from_records(extra_data)
+
+            extra_data = extra_data[zero_array]
         
-        train = pd.concat([train, extra_data], axis = 0).reset_index(drop=True)
+            train = pd.concat([train, extra_data], axis = 0).reset_index(drop=True)
         
         
         
@@ -99,9 +102,10 @@ class LoadData:
         print(f'Len of Val - {len(val)}')
         print(f'Len of Test - {len(test)}')
         
-        joblib.dump(train, '../clean_data/train.joblib')
-        joblib.dump(val, '../clean_data/val.joblib')
-        joblib.dump(test, '../clean_data/test.joblib')
+        # joblib.dump(train, 'data/clean_data/train.joblib')
+        joblib.dump(train, '../data/clean_data/train.joblib')
+        joblib.dump(val, '../data/clean_data/val.joblib')
+        joblib.dump(test, '../data/clean_data/test.joblib')
         
         
         return train, val, test
