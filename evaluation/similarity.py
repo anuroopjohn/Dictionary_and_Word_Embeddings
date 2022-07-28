@@ -1,10 +1,22 @@
 import faiss
-
+import torch, os, random, numpy as np
+def seed_everything(seed: int):
+    
+    random.seed(seed)
+    os.environ['PYTHONHASHSEED'] = str(seed)
+    np.random.seed(seed)
+    torch.manual_seed(seed)
+    torch.cuda.manual_seed(seed)
+    torch.backends.cudnn.deterministic = True
+    torch.backends.cudnn.benchmark = True
+    
+seed_everything(42)
+print('Seed set to 42')
 class Similarity:
-    def __init__(self, index_name, embeddings):
+    #def __init__(self, ):
+            
         
-        self.len_of_src_embs = len(embeddings)
-        self.index = self.create_index(index_name, embeddings)
+        
         
     def create_index(self, index_name, embeddings):
         '''
@@ -37,11 +49,12 @@ class Similarity:
         return index
         
         
-    def get_knn(self, k, query_embs):
+    def get_knn(self, index, k, query_embs):
         '''
         desc: 
             Get k nearest neighbours given the query embeddings
-        params: 
+        params:
+            index: faiss index created using create_index function
             k: number of nearest neighbours to find
             query_embs: an array of query embeddings. shape -> (num_examples, dim)
                 
@@ -49,7 +62,8 @@ class Similarity:
             D: nearest distances
             I: neares indexes (of orignal embeddings on which index was built)
         '''
-        D, I = self.index.search(query_embs, k)
+        faiss.normalize_L2(query_embs)
+        D, I = index.search(query_embs, k)
         return D, I
     
     
