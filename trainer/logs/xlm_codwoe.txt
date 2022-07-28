@@ -1,0 +1,98 @@
+[Epoch 0 / 150]
+
+Epoch: 0 	Training Loss: 0.723626 	Validation Loss: 0.645733
+Loss improved saving checkpoint... 
+[Epoch 1 / 150]
+
+Epoch: 1 	Training Loss: 0.624304 	Validation Loss: 0.581654
+Loss improved saving checkpoint... 
+[Epoch 2 / 150]
+
+Epoch: 2 	Training Loss: 0.568592 	Validation Loss: 0.541382
+Loss improved saving checkpoint... 
+[Epoch 3 / 150]
+
+Epoch: 3 	Training Loss: 0.537684 	Validation Loss: 0.523095
+Loss improved saving checkpoint... 
+[Epoch 4 / 150]
+
+Epoch: 4 	Training Loss: 0.521157 	Validation Loss: 0.511018
+Loss improved saving checkpoint... 
+[Epoch 5 / 150]
+
+Epoch: 5 	Training Loss: 0.507785 	Validation Loss: 0.503896
+Loss improved saving checkpoint... 
+[Epoch 6 / 150]
+
+Epoch: 6 	Training Loss: 0.497737 	Validation Loss: 0.497742
+Loss improved saving checkpoint... 
+[Epoch 7 / 150]
+
+Epoch: 7 	Training Loss: 0.489881 	Validation Loss: 0.494653
+Loss improved saving checkpoint... 
+[Epoch 8 / 150]
+
+Epoch: 8 	Training Loss: 0.482522 	Validation Loss: 0.491365
+Loss improved saving checkpoint... 
+[Epoch 9 / 150]
+
+Epoch: 9 	Training Loss: 0.476533 	Validation Loss: 0.489495
+Loss improved saving checkpoint... 
+[Epoch 10 / 150]
+
+Epoch: 10 	Training Loss: 0.470763 	Validation Loss: 0.487628
+Loss improved saving checkpoint... 
+[Epoch 11 / 150]
+
+Epoch: 11 	Training Loss: 0.465636 	Validation Loss: 0.486436
+Loss improved saving checkpoint... 
+[Epoch 12 / 150]
+
+Epoch: 12 	Training Loss: 0.460726 	Validation Loss: 0.486437
+[Epoch 13 / 150]
+
+Epoch: 13 	Training Loss: 0.455882 	Validation Loss: 0.484770
+Loss improved saving checkpoint... 
+[Epoch 14 / 150]
+
+
+Epoch: 0 	Training Loss: 0.449789 	Validation Loss: 0.484612
+Loss improved saving checkpoint... 
+[Epoch 1 / 150]
+
+Epoch: 1 	Training Loss: 0.448510 	Validation Loss: 0.486539
+[Epoch 2 / 150]
+
+Epoch: 2 	Training Loss: 0.444277 	Validation Loss: 0.484121
+Loss improved saving checkpoint... 
+[Epoch 3 / 150]
+
+Epoch: 3 	Training Loss: 0.440034 	Validation Loss: 0.483791
+Loss improved saving checkpoint... 
+[Epoch 4 / 150]
+
+Epoch: 4 	Training Loss: 0.435804 	Validation Loss: 0.485054
+[Epoch 5 / 150]
+
+Epoch: 5 	Training Loss: 0.432258 	Validation Loss: 0.485637
+[Epoch 6 / 150]
+
+Epoch: 6 	Training Loss: 0.428177 	Validation Loss: 0.483115
+Loss improved saving checkpoint... 
+[Epoch 7 / 150]
+
+Epoch: 7 	Training Loss: 0.424914 	Validation Loss: 0.486083
+[Epoch 8 / 150]
+
+Epoch: 8 	Training Loss: 0.421214 	Validation Loss: 0.485973
+[Epoch 9 / 150]
+
+Epoch: 9 	Training Loss: 0.418070 	Validation Loss: 0.486608
+[Epoch 10 / 150]
+
+Epoch: 10 	Training Loss: 0.415876 	Validation Loss: 0.486682
+[Epoch 11 / 150]
+
+Epoch: 11 	Training Loss: 0.412070 	Validation Loss: 0.485910
+
+Loss did not reduce for last 5 epochs. Stopped training..

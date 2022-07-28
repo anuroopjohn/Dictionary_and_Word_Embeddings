@@ -1,3 +1,4 @@
+*.joblib
 *.ipynb
 processed_data/*
 data/*
@@ -8,3 +9,5 @@ ipython_notebooks/*
 *.ipynb_checkpoints
 *.DS_Store
 *.pyc
+checkpoints/
+__pycache__/
