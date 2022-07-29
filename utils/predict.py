@@ -54,9 +54,9 @@ def seed_everything(seed: int):
     
 seed_everything(42)
 
-project_path = "/data/users/ugarg/capstone/code/Dictionary_and_Word_Embeddings-main/gloss2word/v2/"
+# project_path = "/data/users/ugarg/capstone/code/Dictionary_and_Word_Embeddings-main/gloss2word/v2/"
 
-def prep_model(params):
+def prep_model(params,save_checkpoint_path=None):
 
 
 
@@ -68,7 +68,7 @@ def prep_model(params):
     
     print(f"\nLoading Tokenizer: {params['model_checkpoint']} ...")
     tokenizer = AutoTokenizer.from_pretrained(params['model_checkpoint'])
-    save_checkpoint_path = project_path + f"checkpoints/xlm-roberta-large_model_cosine_loss_fasttext_embs_True_adapter0.0001_lr.pt"#project_path + f"checkpoints/{params['model_checkpoint']}_model_{params['loss_fn_name']}_loss_{params['emb_type']}_embs_{params['use_adapters']}_adapter.pt"
+    # save_checkpoint_path = project_path + f"checkpoints/xlm-roberta-large_model_cosine_loss_fasttext_embs_True_adapter0.0001_lr.pt"#project_path + f"checkpoints/{params['model_checkpoint']}_model_{params['loss_fn_name']}_loss_{params['emb_type']}_embs_{params['use_adapters']}_adapter.pt"
 
     print(f"Loading from : {save_checkpoint_path}")
 
@@ -97,8 +97,8 @@ def prep_model(params):
 
 
     data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
-    faiss_index = faiss.read_index(f"{project_path}clean_data/faiss_index_fasttext_cosine")#faiss_index_{params['emb_type']}_{params['knn_measure']}")
-    faiss_idx_index_to_word_lookup = joblib.load(f'{project_path}clean_data/faiss_idx_index_to_word_lookup.joblib')#faiss_idx_index_to_word_lookup.joblib')
+    faiss_index = faiss.read_index(f"../data/clean_data/faiss_index_{params['emb_type']}_{params['knn_measure']}")
+    faiss_idx_index_to_word_lookup = joblib.load('../data/clean_data/faiss_idx_index_to_word_lookup.joblib')#faiss_idx_index_to_word_lookup.joblib')
     sim = Similarity()
     
     return tokenizer, model, data_collator, sim, faiss_index, faiss_idx_index_to_word_lookup

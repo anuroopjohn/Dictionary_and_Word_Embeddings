@@ -1,4 +1,5 @@
 
+from multiprocessing.sharedctypes import Value
 import os
 import sys
 sys.path.append('..')
@@ -17,12 +18,11 @@ from tqdm import tqdm
 import joblib
 
 class LoadData:
-    
-        
 
+    def get_data(self, extra_data_path=None, extra_data=False):
 
-    def get_data(self, extra_data_path, extra_data=False):
-        print('Start')
+        if extra_data and not extra_data_path:
+            raise ValueError('No extra_data path specified')
 
         
         #train
