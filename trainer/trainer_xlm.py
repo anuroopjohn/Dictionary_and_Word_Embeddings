@@ -3,10 +3,11 @@ import os
 import sys
 #os.environ['HF_HOME'] = '/data/users/ugarg/hf/hf_cache/'
 os.environ['TRANSFORMERS_CACHE'] = '/data/users/ugarg/hf/hf_cache/'
-os.environ['CUDA_VISIBLE_DEVICES']='4'
+os.environ['CUDA_VISIBLE_DEVICES']='2'
 
 #sys.path.append('../../..')
 sys.path.append('../')
+sys.path.append('./')
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -19,7 +20,6 @@ from torch.nn.functional import one_hot
 
 from collections import Counter
 
-from datasets import load_dataset, Dataset, DatasetDict
 import pandas as pd
 import torch
 import numpy as np
@@ -46,38 +46,27 @@ import datetime
 from tqdm.auto import tqdm
 
 
-
-
-
-#from utils.get_data_and_splits import LoadData
-from utils.params import get_xlm_params
+from utils.get_data_and_splits import LoadData
+from utils.params import get_roberta_params, get_xlm_params
 from utils.model import Model
 from utils.utils import checkpoint_builder
-#from utils.faiss_utils import create_and_store_index, get_rank, get_top_n_accuracy
-#from utils.predict import prep_model, predict_on_batch
 
 from CreatePytorchDataset import TrainDataset, ValDataset
 
+loaddata = LoadData()
+train, val, test = loaddata.get_data(
+        extra_data=False,
+        extra_data_path="/data/users/abose1/Capstone/Dictionary_and_Word_Embeddings/data/static_wiki.pkl"       
+        ) #removes non-zero,
 
+print (train[['word','gloss', 'fasttext']].info())
 
-
-
-
-train = joblib.load('../clean_data/train.joblib')
-val = joblib.load('../clean_data/val.joblib')
-test = joblib.load('../clean_data/test.joblib')
-
-
-
-
-print(f"Len of train = {len(train)}")
-print(f"Len of dev = {len(val)}")
-print(f"Len of test = {len(test)}")
+print (train.sample(6))
 
 params = get_xlm_params()
+print (params)
 
 
-print(params)
 ##################
 #   tokenizer
 ##################
@@ -88,27 +77,39 @@ model_checkpoint = params['model_checkpoint']
 print(f'\nLoading Tokenizer: {model_checkpoint} ...')
 tokenizer = AutoTokenizer.from_pretrained(model_checkpoint)
 
+save_checkpoint_path = f"../checkpoints/{params['model_checkpoint']}_{params['loss_fn_name']}loss_{params['emb_type']}_embs_{params['use_adapters']}_adapter_{params['extra_data']}_extradata"
 
-save_checkpoint_path = f"../checkpoints/{params['model_checkpoint']}_model_{params['loss_fn_name']}_loss_{params['emb_type']}_embs_{params['use_adapters']}_adapter.pt"
+def get_path(save_checkpoint_path,i=0):
+    if os.path.exists(save_checkpoint_path+'_'+str(i)):
+        return get_path(save_checkpoint_path,i+1)
+        # print (f'Path {save_checkpoint_path} already exists.')
+    else:
+        return save_checkpoint_path+'_'+str(i)
 
+save_checkpoint_path = get_path(save_checkpoint_path,0)   
+os.mkdir(save_checkpoint_path)
+
+print(f'Save checkpoint path: {save_checkpoint_path}')
+
+import json
+json.dump(params,open(save_checkpoint_path+'/params.json','w'),indent=4)
 
 
 train_dataset = TrainDataset(
-    train, 
-    tokenizer, 
-    params['source_column'],
-    params['max_len'], 
-    params['emb_type']
-)
+                    train, 
+                    tokenizer, 
+                    params['source_column'],
+                    params['max_len'], 
+                    params['emb_type']
+                )
+
 val_dataset = ValDataset(
-    val, 
-    tokenizer, 
-    params['source_column'],
-    params['max_len'], 
-    params['emb_type']
-)
-
-
+                    val, 
+                    tokenizer, 
+                    params['source_column'],
+                    params['max_len'], 
+                    params['emb_type']
+                )
 
 from torch.nn.utils.rnn import pad_sequence
 from torch.utils.data import DataLoader
@@ -127,8 +128,7 @@ val_dataloader = DataLoader(
     collate_fn = data_collator, 
     batch_size=params['batch_size']
 )
-
-
+print (f'Train len {len(train_dataloader)}, val len: {len(val_dataloader)}')
 
 
 ####################################
@@ -144,11 +144,7 @@ model = Model(params['model_checkpoint'],
               params['loss_fn_name'], 
               params['use_adapters'])
 model.to(params['device'])
-
-
-
-
-
+# print (model)
 
 
 ####################################
@@ -167,26 +163,20 @@ num_training_steps = num_train_epochs * num_update_steps_per_epoch
 
 lr_scheduler = get_cosine_with_hard_restarts_schedule_with_warmup(
     optimizer=optimizer,
-    num_warmup_steps=1000,
+    num_warmup_steps=params['num_warmup_steps'],
     num_training_steps=num_training_steps,
-    num_cycles = 10
 )
 
-
-
 if params['resume_from_checkpoint']:
-        print('Resuming from Checkpoint...')
-        print('Loading Checkpoint ...')
-        checkpoint = torch.load(save_checkpoint_path, map_location=params['device'])
-        print('Setting Models state to checkpoint...')
-        #assert checkpoint['model_params'] == model_params
-        model.load_state_dict(checkpoint['model_state_dict'])
-        print('Model state set.')
-        optimizer.load_state_dict(checkpoint['optim_state_dict'])
-        print('Optimizer state set.')
-        
-        
-        
+    print('Resuming from Checkpoint...')
+    print('Loading Checkpoint ...')
+    checkpoint = torch.load(save_checkpoint_path+'/model.pt', map_location=params['device'])
+    print('Setting Models state to checkpoint...')
+    #assert checkpoint['model_params'] == model_params
+    model.load_state_dict(checkpoint['model_state_dict'])
+    print('Model state set.')
+    optimizer.load_state_dict(checkpoint['optim_state_dict'])
+    print('Optimizer state set.')
 
 progress_bar = tqdm(range(num_training_steps))
 early_stopping_counter = 0
@@ -211,8 +201,8 @@ for epoch in range(num_train_epochs):
         lr_scheduler.step()
         optimizer.zero_grad()
         train_loss+= ((1 / (batch_idx + 1)) * (loss.data.item() - train_loss))
-        progress_bar.update(1)
-        progress_bar.set_postfix(loss = train_loss)
+        # progress_bar.update(1)
+        # progress_bar.set_postfix(loss = train_loss)
         
         
     
@@ -242,7 +232,7 @@ for epoch in range(num_train_epochs):
         best_valid_loss = valid_loss
         #create checkpoint
         print("Loss improved saving checkpoint... ")
-        checkpoint_builder(model, optimizer, epoch, save_checkpoint_path)
+        checkpoint_builder(model, optimizer, epoch, save_checkpoint_path+'/model.pt')
 
     else:
         early_stopping_counter += 1
@@ -250,8 +240,3 @@ for epoch in range(num_train_epochs):
             print(f'\nLoss did not reduce for last {early_stopping_counter} epochs. Stopped training..')
             break
 
-
-            
-print('TRAINING DONE...')
-            
-            

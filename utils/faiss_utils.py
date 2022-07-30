@@ -38,11 +38,12 @@ def load_data():
     
     seed_everything(42)
     
-    train = joblib.load('../data/clean_data/train.joblib')
+    # train = joblib.load('../data/clean_data/train.joblib')
     val = joblib.load('../data/clean_data/val.joblib')
     test = joblib.load('../data/clean_data/test.joblib')
     
-    data = pd.concat([train, val, test], axis =0).drop_duplicates(['gloss','word']).reset_index(drop = True)
+    # data = pd.concat([train, val, test], axis =0).drop_duplicates(['gloss','word']).reset_index(drop = True)
+    data = pd.concat([val, test], axis =0).drop_duplicates(['gloss','word']).reset_index(drop = True)
     return data
 
 
@@ -86,8 +87,9 @@ def create_and_store_index(emb_type, knn_measure):
         faiss_idx_index_to_word_lookup[i] = data.loc[i]['word']
         embs_list.append(data.loc[i][emb_type][0].astype(np.float32))  #faiss needs data to be in float32
         
-
     embs = np.stack(embs_list) 
+    
+    print ('Index shape',embs.shape)
     
     sim = Similarity()
     faiss_index = sim.create_index(knn_measure, embs)
@@ -105,7 +107,7 @@ def create_and_store_index(emb_type, knn_measure):
 def get_top_n_accuracy(rank_list, n, ):
     
     
-    accuracy = [1 if i < n else 0 for i in rank_list]
+    accuracy = [1 if i <= n else 0 for i in rank_list]
     return np.round(np.mean(accuracy), 3)
     
     

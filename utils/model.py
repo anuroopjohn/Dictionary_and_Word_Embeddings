@@ -30,24 +30,26 @@ class Model(torch.nn.Module):
             self.loss_fn = torch.nn.CosineEmbeddingLoss()
         elif  loss_fn_name == 'l2':
             self.loss_fn = torch.nn.MSELoss()
-            
         elif loss_fn_name == 'kl':
             self.loss_fn = torch.nn.KLDivLoss(reduction= 'batchmean')#, log_target = True)
-        
         else:
             print('Loss fn not right!')
     
+    def masked_mean(self, t, mask):
+        s = torch.sum(t*mask.unsqueeze(-1).float(), axis=1)
+        d = mask.sum(axis=1, keepdim=True).float()
+        return s/d
+
     def forward(self, batch, mode = 'Train'):
         batch.to(self.device)
-        #self.base.to(self.device)
-        #self.fc.to(self.device)
-        # actual = batch['act_emb']
-        # del(batch['act_emb'])
+
         pools = self.base(input_ids=batch['input_ids'],
-          attention_mask=batch['attention_mask'])['last_hidden_state'].mean(dim = 1)
-        # print(hidden.shape)
-        # print(pools.shape)
-        
+          attention_mask=batch['attention_mask'])['last_hidden_state']  #shape: bs,max_len,1024
+        # batch['attention_mask'] shape: bs, max_len
+
+        # pools = torch.div(pools.sum(axis=1).T,batch['attention_mask'].sum(axis=1)).T
+        pools = self.masked_mean(pools,batch['attention_mask'])
+
         out = self.fc(self.dropout(pools))
         
         if mode == 'Train':
