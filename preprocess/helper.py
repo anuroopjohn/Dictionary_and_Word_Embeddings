@@ -30,7 +30,7 @@ def build_sample_data(k=10_000):
     write_pickle_file(sampled_db,config.sampled_data_path)
     
     return
-
+    
 
 def read_pickle_file(filepath):
     '''

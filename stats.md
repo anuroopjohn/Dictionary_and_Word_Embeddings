@@ -1,6 +1,15 @@
 ## Embedding stats
 
 ### CODEWOE
+
+**MUSE Embeddings:**
+
+Train: 7039 out of 31444 not found
+Dev: 1032 out of 4593 not found
+Test: 1065 out of 4529 not found
+
+**Glove Embeddings:**
+
 For words that were not found in Glove, 0 vector of same size was utilized
 Train:
 27292/31444 = 0.8679 in glove with 14699 unique values
@@ -13,6 +22,8 @@ Dev:
 Test:
 3893/4529 = 0.8596 in glove with 2157 unique values
 636/4529 = 0.1404 not in glove with 539 unique values
+
+**Fasttext Embeddings:**
 
 For words that were not found in FastText, 0 vector of same size was utilized 300 Dimensions
 

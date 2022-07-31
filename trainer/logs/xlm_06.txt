@@ -1,0 +1,111 @@
+INFO: Pandarallel will run on 48 workers.
+INFO: Pandarallel will use Memory file system to transfer data between the main process and workers.
+2022-07-29 14:28:25.002239: I tensorflow/core/util/util.cc:169] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 31444/31444 [00:00<00:00, 38424.20it/s]
+100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 4593/4593 [00:00<00:00, 48001.73it/s]
+100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 4529/4529 [00:00<00:00, 32412.40it/s]
+Len of Train before drop duplicates - 28983
+Len of Val before drop duplicates - 4219
+Len of Test before drop duplicates - 4227
+Len of Train - 28983
+Len of Val - 4219
+Len of Test - 4227
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 28983 entries, 0 to 28982
+Data columns (total 3 columns):
+ #   Column    Non-Null Count  Dtype
+---  ------    --------------  -----
+ 0   word      28983 non-null  object
+ 1   gloss     28983 non-null  object
+ 2   fasttext  28983 non-null  object
+dtypes: object(3)
+memory usage: 679.4+ KB
+None
+              word                                              gloss                                           fasttext
+27154  underground  A movement or organisation of people who resis...  [-0.2013, -0.3014, 0.1525, 0.1562, -0.304, -0....
+20981    refection  Physical refreshment , especially with food or...  [0.0731, 0.2905, -0.5642, -0.0788, -0.0255, 0....
+22957      shelter                                    To take cover .  [-0.0753, -0.5014, -0.2117, -0.1908, -0.3724, ...
+13664   indecisive                          inconclusive or uncertain  [-0.0403, 0.0665, 0.1213, -0.7659, 0.5997, 0.0...
+2929       bedevil       To harass or cause trouble for ; to plague .  [0.1295, -0.0428, 0.0991, -0.1387, 0.3032, 0.1...
+24343        stage          To place in position to prepare for use .  [0.0975, -0.3233, -0.1921, -0.0952, 0.0622, 0....
+Params: {'model_checkpoint': 'xlm-roberta-large', 'source_column': 'gloss', 'max_len': 150, 'batch_size': 16, 'dropout': 0.1, 'learning_rate': 0.0001, 'num_epochs': 150, 'early_stopping_limit': 5, 'device': 'cuda:0', 'loss_fn_name': 'cosine', 'emb_type': 'fasttext', 'use_adapters': True, 'resume_from_checkpoint': False, 'output_size': 300, 'knn_measure': 'cosine', 'num_warmup_steps': 300, 'extra_data': False}
+
+Loading Tokenizer: xlm-roberta-large ...
+Save checkpoint path: ../checkpoints/xlm-roberta-large_5
+Train len 1812, val len: 264
+
+Using device cuda:0 for training...
+Some weights of the model checkpoint at xlm-roberta-large were not used when initializing XLMRobertaModel: ['lm_head.bias', 'lm_head.dense.weight', 'lm_head.decoder.weight', 'lm_head.layer_norm.weight', 'lm_head.dense.bias', 'lm_head.layer_norm.bias']
+- This IS expected if you are initializing XLMRobertaModel from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).
+- This IS NOT expected if you are initializing XLMRobertaModel from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
+
+Creating optimizer with Learning Rate: 0.0001
+
+Training for 150 epochs with early stopping set to 5
+
+
+num_training steps : 271800
+  0%|                                                                                                                                       | 0/271 [00:00<?, ?it/s][Epoch 0 / 150]
+  0%|▍                                                                                                                | 1/271 [01:19<5:55:37, 79.03s/it, loss=0.686]
+Epoch: 0 	Training Loss: 0.652758 	Validation Loss: 0.588238
+Loss improved saving checkpoint...
+[Epoch 1 / 150]
+  1%|█▎                                                                                                               | 3/271 [04:15<6:25:24, 86.29s/it, loss=0.572]
+Epoch: 1 	Training Loss: 0.565775 	Validation Loss: 0.547129
+Loss improved saving checkpoint...
+[Epoch 2 / 150]
+  2%|██                                                                                                               | 5/271 [07:16<6:29:42, 87.90s/it, loss=0.537]
+Epoch: 2 	Training Loss: 0.535111 	Validation Loss: 0.530235
+Loss improved saving checkpoint...
+[Epoch 3 / 150]
+  3%|██▉                                                                                                              | 7/271 [10:32<6:47:23, 92.59s/it, loss=0.519]
+Epoch: 3 	Training Loss: 0.518341 	Validation Loss: 0.522059
+Loss improved saving checkpoint...
+[Epoch 4 / 150]
+  3%|███▊                                                                                                             | 9/271 [13:40<6:45:08, 92.78s/it, loss=0.507]
+Epoch: 4 	Training Loss: 0.506447 	Validation Loss: 0.517409
+Loss improved saving checkpoint...
+[Epoch 5 / 150]
+  4%|████▏                                                                                                           | 10/271 [15:20<6:52:52, 94.91s/it, loss=0.498]
+Epoch: 5 	Training Loss: 0.497408 	Validation Loss: 0.514394
+Loss improved saving checkpoint...
+[Epoch 6 / 150]
+  4%|█████                                                                                                            | 12/271 [18:37<6:54:20, 95.98s/it, loss=0.49]
+Epoch: 6 	Training Loss: 0.489555 	Validation Loss: 0.512791
+Loss improved saving checkpoint...
+[Epoch 7 / 150]
+  5%|█████▊                                                                                                          | 14/271 [21:47<6:46:13, 94.84s/it, loss=0.483]
+Epoch: 7 	Training Loss: 0.482706 	Validation Loss: 0.510591
+Loss improved saving checkpoint...
+[Epoch 8 / 150]
+  6%|██████▌                                                                                                         | 16/271 [25:00<6:43:06, 94.85s/it, loss=0.476]
+Epoch: 8 	Training Loss: 0.476361 	Validation Loss: 0.509584
+Loss improved saving checkpoint...
+[Epoch 9 / 150]
+  7%|███████▍                                                                                                        | 18/271 [27:59<6:24:09, 91.10s/it, loss=0.471]
+Epoch: 9 	Training Loss: 0.470880 	Validation Loss: 0.509381
+Loss improved saving checkpoint...
+[Epoch 10 / 150]
+  7%|███████▊                                                                                                        | 19/271 [29:06<5:51:35, 83.71s/it, loss=0.464]
+Epoch: 10 	Training Loss: 0.465820 	Validation Loss: 0.510218
+[Epoch 11 / 150]
+  8%|████████▊                                                                                                        | 21/271 [31:15<5:11:54, 74.86s/it, loss=0.46]
+Epoch: 11 	Training Loss: 0.461228 	Validation Loss: 0.507882
+Loss improved saving checkpoint...
+[Epoch 12 / 150]
+  8%|█████████▌                                                                                                      | 23/271 [34:22<5:45:03, 83.48s/it, loss=0.456]
+Epoch: 12 	Training Loss: 0.457101 	Validation Loss: 0.508670
+[Epoch 13 / 150]
+  9%|██████████▎                                                                                                     | 25/271 [37:25<5:58:34, 87.46s/it, loss=0.452]
+Epoch: 13 	Training Loss: 0.452504 	Validation Loss: 0.509847
+[Epoch 14 / 150]
+ 10%|███████████▏                                                                                                    | 27/271 [40:17<5:48:43, 85.75s/it, loss=0.449]
+Epoch: 14 	Training Loss: 0.449035 	Validation Loss: 0.509735
+[Epoch 15 / 150]
+ 10%|███████████▌                                                                                                    | 28/271 [41:17<5:14:58, 77.77s/it, loss=0.443]
+Epoch: 15 	Training Loss: 0.444982 	Validation Loss: 0.511653
+[Epoch 16 / 150]
+ 11%|████████████▍                                                                                                   | 30/271 [43:05<4:22:46, 65.42s/it, loss=0.441]
+Epoch: 16 	Training Loss: 0.441585 	Validation Loss: 0.510172
+
+Loss did not reduce for last 5 epochs. Stopped training..
