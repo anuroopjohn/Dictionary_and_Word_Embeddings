@@ -28,7 +28,7 @@ from tqdm import tqdm
 
 import faiss
 
-from utils.params import get_roberta_params
+from trainer.params import get_roberta_params
 from evaluation.similarity import Similarity
 from utils.faiss_utils import load_data, create_and_store_index, get_top_n_accuracy
 from torch.utils.data import DataLoader
@@ -99,6 +99,8 @@ def prep_model(params,save_checkpoint_path=None):
     data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
     faiss_index = faiss.read_index(f"../data/clean_data/faiss_index_{params['emb_type']}_{params['knn_measure']}")
     faiss_idx_index_to_word_lookup = joblib.load('../data/clean_data/faiss_idx_index_to_word_lookup.joblib')#faiss_idx_index_to_word_lookup.joblib')
+    print (f'Index dict len: {len(faiss_idx_index_to_word_lookup)}')
+    
     sim = Similarity()
     
     return tokenizer, model, data_collator, sim, faiss_index, faiss_idx_index_to_word_lookup

@@ -13,11 +13,7 @@ def seed_everything(seed: int):
 seed_everything(42)
 print('Seed set to 42')
 class Similarity:
-    #def __init__(self, ):
             
-        
-        
-        
     def create_index(self, index_name, embeddings):
         '''
         desc: 

@@ -1,0 +1,228 @@
+2022-07-29 12:38:37.199638: I tensorflow/core/util/util.cc:169] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+INFO: Pandarallel will run on 48 workers.
+INFO: Pandarallel will use Memory file system to transfer data between the main process and workers.
+  0%|          | 0/31444 [00:00<?, ?it/s]  5%|▌         | 1699/31444 [00:00<00:01, 16599.83it/s] 11%|█         | 3459/31444 [00:00<00:01, 17177.55it/s] 23%|██▎       | 7224/31444 [00:00<00:00, 26473.99it/s] 38%|███▊      | 11930/31444 [00:00<00:00, 34573.18it/s] 49%|████▉     | 15475/31444 [00:00<00:00, 34885.32it/s] 63%|██████▎   | 19741/31444 [00:00<00:00, 37522.29it/s] 76%|███████▌  | 23879/31444 [00:00<00:00, 38781.05it/s] 88%|████████▊ | 27760/31444 [00:00<00:00, 37685.46it/s]100%|██████████| 31444/31444 [00:00<00:00, 31873.36it/s]
+  0%|          | 0/4593 [00:00<?, ?it/s] 99%|█████████▉| 4541/4593 [00:00<00:00, 45398.68it/s]100%|██████████| 4593/4593 [00:00<00:00, 45183.29it/s]
+  0%|          | 0/4529 [00:00<?, ?it/s]100%|██████████| 4529/4529 [00:00<00:00, 47491.79it/s]
+Some weights of the model checkpoint at xlm-roberta-large were not used when initializing XLMRobertaModel: ['lm_head.dense.bias', 'lm_head.bias', 'lm_head.layer_norm.bias', 'lm_head.layer_norm.weight', 'lm_head.dense.weight', 'lm_head.decoder.weight']
+- This IS expected if you are initializing XLMRobertaModel from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).
+- This IS NOT expected if you are initializing XLMRobertaModel from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
+Len of Train before drop duplicates - 28983
+Len of Val before drop duplicates - 4219
+Len of Test before drop duplicates - 4227
+Len of Train - 28983
+Len of Val - 4219
+Len of Test - 4227
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 28983 entries, 0 to 28982
+Data columns (total 3 columns):
+ #   Column    Non-Null Count  Dtype 
+---  ------    --------------  ----- 
+ 0   word      28983 non-null  object
+ 1   gloss     28983 non-null  object
+ 2   fasttext  28983 non-null  object
+dtypes: object(3)
+memory usage: 679.4+ KB
+None
+              word  ...                                           fasttext
+27154  underground  ...  [-0.2013, -0.3014, 0.1525, 0.1562, -0.304, -0....
+20981    refection  ...  [0.0731, 0.2905, -0.5642, -0.0788, -0.0255, 0....
+22957      shelter  ...  [-0.0753, -0.5014, -0.2117, -0.1908, -0.3724, ...
+13664   indecisive  ...  [-0.0403, 0.0665, 0.1213, -0.7659, 0.5997, 0.0...
+2929       bedevil  ...  [0.1295, -0.0428, 0.0991, -0.1387, 0.3032, 0.1...
+24343        stage  ...  [0.0975, -0.3233, -0.1921, -0.0952, 0.0622, 0....
+
+[6 rows x 3 columns]
+Params: {'model_checkpoint': 'xlm-roberta-large', 'source_column': 'gloss', 'max_len': 150, 'batch_size': 16, 'dropout': 0.1, 'learning_rate': 0.0001, 'num_epochs': 150, 'early_stopping_limit': 5, 'device': 'cuda:0', 'loss_fn_name': 'cosine', 'emb_type': 'fasttext', 'use_adapters': True, 'resume_from_checkpoint': False, 'output_size': 300, 'knn_measure': 'cosine', 'num_warmup_steps': 300, 'extra_data': False}
+
+Loading Tokenizer: xlm-roberta-large ...
+Save checkpoint path: ../checkpoints/xlm-roberta-large_3
+Train len 1812, val len: 264
+
+Using device cuda:0 for training...
+
+Creating optimizer with Learning Rate: 0.0001
+
+Training for 150 epochs with early stopping set to 5
+
+
+num_training steps : 271800
+  0%|          | 0/271 [00:00<?, ?it/s]  0%|          | 1/271 [00:48<3:39:26, 48.76s/it]  0%|          | 1/271 [00:48<3:39:26, 48.76s/it, loss=0.69]  1%|          | 2/271 [01:49<4:10:02, 55.77s/it, loss=0.69]  1%|          | 2/271 [01:49<4:10:02, 55.77s/it, loss=0.62]  1%|          | 3/271 [02:31<3:41:02, 49.49s/it, loss=0.62]  1%|          | 3/271 [02:31<3:41:02, 49.49s/it, loss=0.614]  1%|▏         | 4/271 [03:27<3:51:34, 52.04s/it, loss=0.614]  1%|▏         | 4/271 [03:27<3:51:34, 52.04s/it, loss=0.596]  2%|▏         | 5/271 [04:10<3:37:03, 48.96s/it, loss=0.596]  2%|▏         | 5/271 [04:10<3:37:03, 48.96s/it, loss=0.594]  2%|▏         | 6/271 [05:05<3:44:54, 50.92s/it, loss=0.594]  2%|▏         | 6/271 [05:05<3:44:54, 50.92s/it, loss=0.582]  3%|▎         | 7/271 [05:47<3:31:10, 47.99s/it, loss=0.582]  3%|▎         | 7/271 [05:47<3:31:10, 47.99s/it, loss=0.581]  3%|▎         | 8/271 [06:45<3:44:49, 51.29s/it, loss=0.581]  3%|▎         | 8/271 [06:45<3:44:49, 51.29s/it, loss=0.574]  3%|▎         | 9/271 [07:29<3:32:52, 48.75s/it, loss=0.574]  3%|▎         | 9/271 [07:29<3:32:52, 48.75s/it, loss=0.573]  4%|▎         | 10/271 [08:27<3:45:08, 51.76s/it, loss=0.573]  4%|▎         | 10/271 [08:27<3:45:08, 51.76s/it, loss=0.568]  4%|▍         | 11/271 [09:26<3:53:21, 53.85s/it, loss=0.568]  4%|▍         | 11/271 [09:26<3:53:21, 53.85s/it, loss=0.565]  4%|▍         | 12/271 [10:11<3:40:41, 51.13s/it, loss=0.565]  4%|▍         | 12/271 [10:11<3:40:41, 51.13s/it, loss=0.564]  5%|▍         | 13/271 [11:08<3:48:23, 53.12s/it, loss=0.564]  5%|▍         | 13/271 [11:08<3:48:23, 53.12s/it, loss=0.56]   5%|▌         | 14/271 [11:52<3:35:30, 50.31s/it, loss=0.56]  5%|▌         | 14/271 [11:52<3:35:30, 50.31s/it, loss=0.56]  6%|▌         | 15/271 [12:49<3:43:30, 52.39s/it, loss=0.56]  6%|▌         | 15/271 [12:49<3:43:30, 52.39s/it, loss=0.557]  6%|▌         | 16/271 [13:33<3:32:06, 49.91s/it, loss=0.557]  6%|▌         | 16/271 [13:33<3:32:06, 49.91s/it, loss=0.558]  6%|▋         | 17/271 [14:33<3:43:52, 52.88s/it, loss=0.558]  6%|▋         | 17/271 [14:33<3:43:52, 52.88s/it, loss=0.555]  7%|▋         | 18/271 [15:18<3:32:02, 50.29s/it, loss=0.555]  7%|▋         | 18/271 [15:18<3:32:02, 50.29s/it, loss=0.555]  7%|▋         | 19/271 [16:15<3:39:57, 52.37s/it, loss=0.555]  7%|▋         | 19/271 [16:15<3:39:57, 52.37s/it, loss=0.554]  7%|▋         | 20/271 [17:14<3:47:07, 54.29s/it, loss=0.554]  7%|▋         | 20/271 [17:14<3:47:07, 54.29s/it, loss=0.553]  8%|▊         | 21/271 [17:58<3:34:02, 51.37s/it, loss=0.553]  8%|▊         | 21/271 [17:58<3:34:02, 51.37s/it, loss=0.552]  8%|▊         | 22/271 [18:51<3:34:40, 51.73s/it, loss=0.552]  8%|▊         | 22/271 [18:51<3:34:40, 51.73s/it, loss=0.552]  8%|▊         | 23/271 [19:34<3:24:01, 49.36s/it, loss=0.552]  8%|▊         | 23/271 [19:34<3:24:01, 49.36s/it, loss=0.551]  9%|▉         | 24/271 [20:32<3:33:22, 51.83s/it, loss=0.551]  9%|▉         | 24/271 [20:32<3:33:22, 51.83s/it, loss=0.55]   9%|▉         | 25/271 [21:16<3:23:07, 49.54s/it, loss=0.55]  9%|▉         | 25/271 [21:16<3:23:07, 49.54s/it, loss=0.55] 10%|▉         | 26/271 [22:08<3:25:06, 50.23s/it, loss=0.55] 10%|▉         | 26/271 [22:08<3:25:06, 50.23s/it, loss=0.549] 10%|▉         | 27/271 [22:51<3:15:29, 48.07s/it, loss=0.549] 10%|▉         | 27/271 [22:51<3:15:29, 48.07s/it, loss=0.55]  10%|█         | 28/271 [23:46<3:22:34, 50.02s/it, loss=0.55] 10%|█         | 28/271 [23:46<3:22:34, 50.02s/it, loss=0.548] 11%|█         | 29/271 [24:49<3:37:25, 53.91s/it, loss=0.548] 11%|█         | 29/271 [24:49<3:37:25, 53.91s/it, loss=0.555] 11%|█         | 30/271 [25:31<3:22:53, 50.51s/it, loss=0.555] 11%|█         | 30/271 [25:31<3:22:53, 50.51s/it, loss=0.548] 11%|█▏        | 31/271 [26:20<3:20:09, 50.04s/it, loss=0.548] 11%|█▏        | 31/271 [26:20<3:20:09, 50.04s/it, loss=0.548] 12%|█▏        | 32/271 [27:03<3:10:17, 47.77s/it, loss=0.548] 12%|█▏        | 32/271 [27:03<3:10:17, 47.77s/it, loss=0.548] 12%|█▏        | 33/271 [28:01<3:22:11, 50.97s/it, loss=0.548] 12%|█▏        | 33/271 [28:01<3:22:11, 50.97s/it, loss=0.548] 13%|█▎        | 34/271 [28:45<3:13:27, 48.98s/it, loss=0.548] 13%|█▎        | 34/271 [28:45<3:13:27, 48.98s/it, loss=0.548] 13%|█▎        | 35/271 [29:38<3:16:52, 50.05s/it, loss=0.548] 13%|█▎        | 35/271 [29:38<3:16:52, 50.05s/it, loss=0.545] 13%|█▎        | 36/271 [30:22<3:08:33, 48.14s/it, loss=0.545] 13%|█▎        | 36/271 [30:22<3:08:33, 48.14s/it, loss=0.548] 14%|█▎        | 37/271 [31:15<3:13:31, 49.62s/it, loss=0.548] 14%|█▎        | 37/271 [31:15<3:13:31, 49.62s/it, loss=0.546] 14%|█▍        | 38/271 [31:59<3:05:58, 47.89s/it, loss=0.546] 14%|█▍        | 38/271 [31:59<3:05:58, 47.89s/it, loss=0.547] 14%|█▍        | 39/271 [32:57<3:16:59, 50.95s/it, loss=0.547] 14%|█▍        | 39/271 [32:57<3:16:59, 50.95s/it, loss=0.546] 15%|█▍        | 40/271 [33:56<3:26:08, 53.54s/it, loss=0.546] 15%|█▍        | 40/271 [33:56<3:26:08, 53.54s/it, loss=0.546] 15%|█▌        | 41/271 [34:41<3:14:31, 50.75s/it, loss=0.546] 15%|█▌        | 41/271 [34:41<3:14:31, 50.75s/it, loss=0.546] 15%|█▌        | 42/271 [35:34<3:17:13, 51.67s/it, loss=0.546] 15%|█▌        | 42/271 [35:34<3:17:13, 51.67s/it, loss=0.544] 16%|█▌        | 43/271 [36:19<3:08:20, 49.56s/it, loss=0.544] 16%|█▌        | 43/271 [36:19<3:08:20, 49.56s/it, loss=0.546] 16%|█▌        | 44/271 [37:19<3:19:06, 52.63s/it, loss=0.546] 16%|█▌        | 44/271 [37:19<3:19:06, 52.63s/it, loss=0.545] 17%|█▋        | 45/271 [38:03<3:08:58, 50.17s/it, loss=0.545] 17%|█▋        | 45/271 [38:03<3:08:58, 50.17s/it, loss=0.546] 17%|█▋        | 46/271 [39:01<3:16:56, 52.52s/it, loss=0.546] 17%|█▋        | 46/271 [39:01<3:16:56, 52.52s/it, loss=0.546] 17%|█▋        | 47/271 [39:47<3:08:23, 50.46s/it, loss=0.546] 17%|█▋        | 47/271 [39:47<3:08:23, 50.46s/it, loss=0.546] 18%|█▊        | 48/271 [40:40<3:10:44, 51.32s/it, loss=0.546] 18%|█▊        | 48/271 [40:40<3:10:44, 51.32s/it, loss=0.545] 18%|█▊        | 49/271 [41:40<3:19:18, 53.87s/it, loss=0.545] 18%|█▊        | 49/271 [41:40<3:19:18, 53.87s/it, loss=0.543] 18%|█▊        | 50/271 [42:25<3:08:45, 51.25s/it, loss=0.543] 18%|█▊        | 50/271 [42:25<3:08:45, 51.25s/it, loss=0.546] 19%|█▉        | 51/271 [43:28<3:21:04, 54.84s/it, loss=0.546] 19%|█▉        | 51/271 [43:28<3:21:04, 54.84s/it, loss=0.545] 19%|█▉        | 52/271 [44:13<3:09:29, 51.91s/it, loss=0.545] 19%|█▉        | 52/271 [44:13<3:09:29, 51.91s/it, loss=0.545] 20%|█▉        | 53/271 [45:14<3:18:22, 54.60s/it, loss=0.545] 20%|█▉        | 53/271 [45:14<3:18:22, 54.60s/it, loss=0.545] 20%|█▉        | 54/271 [45:58<3:05:08, 51.19s/it, loss=0.545] 20%|█▉        | 54/271 [45:58<3:05:08, 51.19s/it, loss=0.545] 20%|██        | 55/271 [46:59<3:15:32, 54.32s/it, loss=0.545] 20%|██        | 55/271 [46:59<3:15:32, 54.32s/it, loss=0.546] 21%|██        | 56/271 [47:48<3:08:55, 52.72s/it, loss=0.546] 21%|██        | 56/271 [47:48<3:08:55, 52.72s/it, loss=0.546] 21%|██        | 57/271 [48:45<3:12:44, 54.04s/it, loss=0.546] 21%|██        | 57/271 [48:45<3:12:44, 54.04s/it, loss=0.544] 21%|██▏       | 58/271 [49:33<3:04:36, 52.00s/it, loss=0.544] 21%|██▏       | 58/271 [49:33<3:04:36, 52.00s/it, loss=0.546] 22%|██▏       | 59/271 [50:15<2:53:05, 48.99s/it, loss=0.546] 22%|██▏       | 59/271 [50:15<2:53:05, 48.99s/it, loss=0.545] 22%|██▏       | 60/271 [51:07<2:56:12, 50.11s/it, loss=0.545] 22%|██▏       | 60/271 [51:07<2:56:12, 50.11s/it, loss=0.543] 23%|██▎       | 61/271 [51:49<2:46:50, 47.67s/it, loss=0.543] 23%|██▎       | 61/271 [51:49<2:46:50, 47.67s/it, loss=0.545] 23%|██▎       | 62/271 [52:48<2:57:36, 50.99s/it, loss=0.545] 23%|██▎       | 62/271 [52:48<2:57:36, 50.99s/it, loss=0.544] 23%|██▎       | 63/271 [53:32<2:49:06, 48.78s/it, loss=0.544] 23%|██▎       | 63/271 [53:32<2:49:06, 48.78s/it, loss=0.545] 24%|██▎       | 64/271 [54:30<2:58:46, 51.82s/it, loss=0.545] 24%|██▎       | 64/271 [54:30<2:58:46, 51.82s/it, loss=0.544] 24%|██▍       | 65/271 [55:14<2:49:35, 49.39s/it, loss=0.544] 24%|██▍       | 65/271 [55:14<2:49:35, 49.39s/it, loss=0.545] 24%|██▍       | 66/271 [56:06<2:51:31, 50.20s/it, loss=0.545] 24%|██▍       | 66/271 [56:06<2:51:31, 50.20s/it, loss=0.545] 25%|██▍       | 67/271 [56:50<2:43:53, 48.20s/it, loss=0.545] 25%|██▍       | 67/271 [56:50<2:43:53, 48.20s/it, loss=0.545] 25%|██▌       | 68/271 [57:49<2:54:26, 51.56s/it, loss=0.545] 25%|██▌       | 68/271 [57:49<2:54:26, 51.56s/it, loss=0.545] 25%|██▌       | 69/271 [58:47<2:59:57, 53.45s/it, loss=0.545] 25%|██▌       | 69/271 [58:47<2:59:57, 53.45s/it, loss=0.544] 26%|██▌       | 70/271 [59:31<2:49:05, 50.47s/it, loss=0.544] 26%|██▌       | 70/271 [59:31<2:49:05, 50.47s/it, loss=0.544] 26%|██▌       | 71/271 [1:00:23<2:50:10, 51.05s/it, loss=0.544] 26%|██▌       | 71/271 [1:00:23<2:50:10, 51.05s/it, loss=0.542] 27%|██▋       | 72/271 [1:01:07<2:42:12, 48.91s/it, loss=0.542] 27%|██▋       | 72/271 [1:01:07<2:42:12, 48.91s/it, loss=0.545] 27%|██▋       | 73/271 [1:02:05<2:50:56, 51.80s/it, loss=0.545] 27%|██▋       | 73/271 [1:02:05<2:50:56, 51.80s/it, loss=0.544] 27%|██▋       | 74/271 [1:02:48<2:40:39, 48.93s/it, loss=0.544] 27%|██▋       | 74/271 [1:02:48<2:40:39, 48.93s/it, loss=0.545] 28%|██▊       | 75/271 [1:03:40<2:43:19, 50.00s/it, loss=0.545] 28%|██▊       | 75/271 [1:03:40<2:43:19, 50.00s/it, loss=0.544] 28%|██▊       | 76/271 [1:04:23<2:35:24, 47.82s/it, loss=0.544] 28%|██▊       | 76/271 [1:04:23<2:35:24, 47.82s/it, loss=0.545] 28%|██▊       | 77/271 [1:05:14<2:37:56, 48.85s/it, loss=0.545] 28%|██▊       | 77/271 [1:05:14<2:37:56, 48.85s/it, loss=0.544] 29%|██▉       | 78/271 [1:06:06<2:39:35, 49.61s/it, loss=0.544] 29%|██▉       | 78/271 [1:06:06<2:39:35, 49.61s/it, loss=0.543] 29%|██▉       | 79/271 [1:06:49<2:32:26, 47.64s/it, loss=0.543] 29%|██▉       | 79/271 [1:06:49<2:32:26, 47.64s/it, loss=0.544] 30%|██▉       | 80/271 [1:07:47<2:41:59, 50.89s/it, loss=0.544] 30%|██▉       | 80/271 [1:07:47<2:41:59, 50.89s/it, loss=0.543] 30%|██▉       | 81/271 [1:08:30<2:33:53, 48.60s/it, loss=0.543] 30%|██▉       | 81/271 [1:08:30<2:33:53, 48.60s/it, loss=0.544] 30%|███       | 82/271 [1:09:23<2:36:51, 49.80s/it, loss=0.544] 30%|███       | 82/271 [1:09:23<2:36:51, 49.80s/it, loss=0.545] 31%|███       | 83/271 [1:10:07<2:31:03, 48.21s/it, loss=0.545] 31%|███       | 83/271 [1:10:07<2:31:03, 48.21s/it, loss=0.545] 31%|███       | 84/271 [1:11:05<2:38:38, 50.90s/it, loss=0.545] 31%|███       | 84/271 [1:11:05<2:38:38, 50.90s/it, loss=0.544] 31%|███▏      | 85/271 [1:11:51<2:33:50, 49.63s/it, loss=0.544] 31%|███▏      | 85/271 [1:11:51<2:33:50, 49.63s/it, loss=0.544] 32%|███▏      | 86/271 [1:12:38<2:30:18, 48.75s/it, loss=0.544] 32%|███▏      | 86/271 [1:12:38<2:30:18, 48.75s/it, loss=0.544] 32%|███▏      | 87/271 [1:13:30<2:32:23, 49.69s/it, loss=0.544] 32%|███▏      | 87/271 [1:13:30<2:32:23, 49.69s/it, loss=0.538] 32%|███▏      | 88/271 [1:14:13<2:25:51, 47.82s/it, loss=0.538] 32%|███▏      | 88/271 [1:14:13<2:25:51, 47.82s/it, loss=0.543][Epoch 0 / 150]
+
+Epoch: 0 	Training Loss: 0.663030 	Validation Loss: 0.620931
+Loss improved saving checkpoint... 
+[Epoch 1 / 150]
+
+Epoch: 1 	Training Loss: 0.610961 	Validation Loss: 0.599539
+Loss improved saving checkpoint... 
+[Epoch 2 / 150]
+
+Epoch: 2 	Training Loss: 0.592367 	Validation Loss: 0.586134
+Loss improved saving checkpoint... 
+[Epoch 3 / 150]
+
+Epoch: 3 	Training Loss: 0.580694 	Validation Loss: 0.579110
+Loss improved saving checkpoint... 
+[Epoch 4 / 150]
+
+Epoch: 4 	Training Loss: 0.572836 	Validation Loss: 0.573698
+Loss improved saving checkpoint... 
+[Epoch 5 / 150]
+
+Epoch: 5 	Training Loss: 0.567143 	Validation Loss: 0.570210
+Loss improved saving checkpoint... 
+[Epoch 6 / 150]
+
+Epoch: 6 	Training Loss: 0.563034 	Validation Loss: 0.567250
+Loss improved saving checkpoint... 
+[Epoch 7 / 150]
+
+Epoch: 7 	Training Loss: 0.559835 	Validation Loss: 0.565579
+Loss improved saving checkpoint... 
+[Epoch 8 / 150]
+
+Epoch: 8 	Training Loss: 0.557665 	Validation Loss: 0.563042
+Loss improved saving checkpoint... 
+[Epoch 9 / 150]
+
+Epoch: 9 	Training Loss: 0.555505 	Validation Loss: 0.562593
+Loss improved saving checkpoint... 
+[Epoch 10 / 150]
+
+Epoch: 10 	Training Loss: 0.553728 	Validation Loss: 0.560802
+Loss improved saving checkpoint... 
+[Epoch 11 / 150]
+
+Epoch: 11 	Training Loss: 0.552629 	Validation Loss: 0.561136
+[Epoch 12 / 150]
+
+Epoch: 12 	Training Loss: 0.551576 	Validation Loss: 0.559053
+Loss improved saving checkpoint... 
+[Epoch 13 / 150]
+
+Epoch: 13 	Training Loss: 0.550836 	Validation Loss: 0.559814
+[Epoch 14 / 150]
+
+Epoch: 14 	Training Loss: 0.550176 	Validation Loss: 0.559542
+[Epoch 15 / 150]
+
+Epoch: 15 	Training Loss: 0.549317 	Validation Loss: 0.558054
+Loss improved saving checkpoint... 
+[Epoch 16 / 150]
+
+Epoch: 16 	Training Loss: 0.548745 	Validation Loss: 0.558425
+[Epoch 17 / 150]
+
+Epoch: 17 	Training Loss: 0.548422 	Validation Loss: 0.557538
+Loss improved saving checkpoint... 
+[Epoch 18 / 150]
+
+Epoch: 18 	Training Loss: 0.547923 	Validation Loss: 0.557538
+[Epoch 19 / 150]
+
+Epoch: 19 	Training Loss: 0.547772 	Validation Loss: 0.557706
+[Epoch 20 / 150]
+
+Epoch: 20 	Training Loss: 0.547248 	Validation Loss: 0.557242
+Loss improved saving checkpoint... 
+[Epoch 21 / 150]
+
+Epoch: 21 	Training Loss: 0.546968 	Validation Loss: 0.557100
+Loss improved saving checkpoint... 
+[Epoch 22 / 150]
+
+Epoch: 22 	Training Loss: 0.546795 	Validation Loss: 0.557759
+[Epoch 23 / 150]
+
+Epoch: 23 	Training Loss: 0.546699 	Validation Loss: 0.556700
+Loss improved saving checkpoint... 
+[Epoch 24 / 150]
+
+Epoch: 24 	Training Loss: 0.546661 	Validation Loss: 0.556698
+Loss improved saving checkpoint... 
+[Epoch 25 / 150]
+
+Epoch: 25 	Training Loss: 0.546368 	Validation Loss: 0.556843
+[Epoch 26 / 150]
+
+Epoch: 26 	Training Loss: 0.546216 	Validation Loss: 0.556554
+Loss improved saving checkpoint... 
+[Epoch 27 / 150]
+
+Epoch: 27 	Training Loss: 0.546126 	Validation Loss: 0.556534
+Loss improved saving checkpoint... 
+[Epoch 28 / 150]
+
+Epoch: 28 	Training Loss: 0.545966 	Validation Loss: 0.556301
+Loss improved saving checkpoint... 
+[Epoch 29 / 150]
+
+Epoch: 29 	Training Loss: 0.545590 	Validation Loss: 0.556112
+Loss improved saving checkpoint... 
+[Epoch 30 / 150]
+
+Epoch: 30 	Training Loss: 0.545630 	Validation Loss: 0.556044
+Loss improved saving checkpoint... 
+[Epoch 31 / 150]
+
+Epoch: 31 	Training Loss: 0.545683 	Validation Loss: 0.556231
+[Epoch 32 / 150]
+
+Epoch: 32 	Training Loss: 0.545403 	Validation Loss: 0.556673
+[Epoch 33 / 150]
+
+Epoch: 33 	Training Loss: 0.545437 	Validation Loss: 0.555888
+Loss improved saving checkpoint... 
+[Epoch 34 / 150]
+
+Epoch: 34 	Training Loss: 0.545188 	Validation Loss: 0.555340
+Loss improved saving checkpoint... 
+[Epoch 35 / 150]
+
+Epoch: 35 	Training Loss: 0.545074 	Validation Loss: 0.555597
+[Epoch 36 / 150]
+
+Epoch: 36 	Training Loss: 0.545169 	Validation Loss: 0.555317
+Loss improved saving checkpoint... 
+[Epoch 37 / 150]
+
+Epoch: 37 	Training Loss: 0.544970 	Validation Loss: 0.555293
+Loss improved saving checkpoint... 
+[Epoch 38 / 150]
+
+Epoch: 38 	Training Loss: 0.544932 	Validation Loss: 0.555634
+[Epoch 39 / 150]
+
+Epoch: 39 	Training Loss: 0.544822 	Validation Loss: 0.554903
+Loss improved saving checkpoint... 
+[Epoch 40 / 150]
+
+Epoch: 40 	Training Loss: 0.544731 	Validation Loss: 0.555470
+[Epoch 41 / 150]
+
+Epoch: 41 	Training Loss: 0.544491 	Validation Loss: 0.555514
+[Epoch 42 / 150]
+
+Epoch: 42 	Training Loss: 0.544487 	Validation Loss: 0.555178
+[Epoch 43 / 150]
+
+Epoch: 43 	Training Loss: 0.544502 	Validation Loss: 0.554624
+Loss improved saving checkpoint... 
+[Epoch 44 / 150]
+
+Epoch: 44 	Training Loss: 0.544432 	Validation Loss: 0.555022
+[Epoch 45 / 150]
+
+Epoch: 45 	Training Loss: 0.544145 	Validation Loss: 0.554922
+[Epoch 46 / 150]
+
+Epoch: 46 	Training Loss: 0.544157 	Validation Loss: 0.554742
+[Epoch 47 / 150]
+
+Epoch: 47 	Training Loss: 0.544024 	Validation Loss: 0.554719
+[Epoch 48 / 150]
+
+Epoch: 48 	Training Loss: 0.544113 	Validation Loss: 0.554781
+
+Loss did not reduce for last 5 epochs. Stopped training..
+ 32%|███▏      | 88/271 [1:14:57<2:35:51, 51.10s/it, loss=0.543]

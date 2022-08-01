@@ -39,11 +39,14 @@ def load_data():
     seed_everything(42)
     
     # train = joblib.load('../data/clean_data/train.joblib')
-    val = joblib.load('../data/clean_data/val.joblib')
-    test = joblib.load('../data/clean_data/test.joblib')
-    
+    paths = ['../data/clean_data/train.joblib','../data/clean_data/val.joblib','../data/clean_data/test.joblib',
+            '../data/clean_data/de_wiki_muse.joblib'][1:-1]
+    data = [joblib.load(p) for p in paths]
+
     # data = pd.concat([train, val, test], axis =0).drop_duplicates(['gloss','word']).reset_index(drop = True)
-    data = pd.concat([val, test], axis =0).drop_duplicates(['gloss','word']).reset_index(drop = True)
+
+    data = pd.concat(data, axis=0).drop_duplicates(['gloss','word']).reset_index(drop = True)
+
     return data
 
 
