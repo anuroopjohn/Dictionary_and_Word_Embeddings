@@ -47,26 +47,29 @@ from tqdm.auto import tqdm
 
 
 from utils.get_data_and_splits import LoadData
-from utils.params import get_roberta_params, get_xlm_params
+from params import get_roberta_params, get_xlm_params
 from utils.model import Model
 from utils.utils import checkpoint_builder
 
 from CreatePytorchDataset import TrainDataset, ValDataset
 
-loaddata = LoadData()
-train, val, test = loaddata.get_data(
-        extra_data=False,
-        extra_data_path="/data/users/abose1/Capstone/Dictionary_and_Word_Embeddings/data/static_wiki.pkl"       
-        ) #removes non-zero,
-
-print (train[['word','gloss', 'fasttext']].info())
-
-print (train.sample(6))
 
 params = get_xlm_params()
 
 print (f'Params: {params}')
 
+loaddata = LoadData()
+train, val, test = loaddata.get_data(
+        emb_type=params['emb_type'],
+        extra_data=False,
+        extra_data_path="/data/users/abose1/Capstone/Dictionary_and_Word_Embeddings/data/static_wiki.pkl"       
+        ) #removes non-zero,
+
+print (params['emb_type'])
+
+print (train[['word','gloss', params['emb_type']]].info())
+
+print (train.sample(6))
 
 ##################
 #   tokenizer

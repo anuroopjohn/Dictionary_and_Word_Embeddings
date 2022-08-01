@@ -34,7 +34,7 @@ def get_xlm_params():
         'early_stopping_limit': 5,
         'device': 'cuda:0',
         'loss_fn_name': 'cosine',
-        'emb_type': 'muse',
+        'emb_type': 'fasttext_aligned',
         'use_adapters': True,
         'resume_from_checkpoint' : False,
         'output_size': 300,

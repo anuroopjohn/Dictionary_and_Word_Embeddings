@@ -48,7 +48,7 @@ from tqdm.auto import tqdm
 
 
 
-from utils.params import get_roberta_params
+from trainer.params import get_roberta_params
 from utils.model import Model
 from utils.utils import checkpoint_builder
 

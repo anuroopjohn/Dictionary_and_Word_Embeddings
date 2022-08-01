@@ -1,7 +1,7 @@
 import sys
 sys.path.append('../')
 import numpy as np
-from utils.params import get_roberta_params, get_xlm_params
+from trainer.params import get_roberta_params, get_xlm_params
 from utils.predict import prep_model, predict_on_batch
 from utils.faiss_utils import create_and_store_index, get_top_n_accuracy
 from tqdm.auto import tqdm
