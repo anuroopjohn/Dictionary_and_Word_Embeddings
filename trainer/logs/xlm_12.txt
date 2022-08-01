@@ -1,0 +1,95 @@
+Params: {'model_checkpoint': 'xlm-roberta-large', 'source_column': 'gloss', 'max_len': 150, 'batch_size': 16, 'dropout': 0.1, 'learning_rate': 0.0001, 'num_epochs': 150, 'early_stopping_limit': 5, 'device': 'cuda:0', 'loss_fn_name': 'cosine', 'emb_type': 'fasttext_aligned', 'use_adapters': True, 'resume_from_checkpoint': False, 'output_size': 300, 'knn_measure': 'cosine', 'num_warmup_steps': 300, 'extra_data': False}
+100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 31444/31444 [00:00<00:00, 45480.79it/s]
+100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 4593/4593 [00:00<00:00, 26246.11it/s]
+100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 4529/4529 [00:00<00:00, 27883.92it/s]
+Len of Train before drop duplicates - 23758
+Len of Val before drop duplicates - 3498
+Len of Test before drop duplicates - 3561
+Len of Train - 23758
+Len of Val - 3498
+Len of Test - 3561
+fasttext_aligned
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 23758 entries, 0 to 23757
+Data columns (total 3 columns):
+ #   Column            Non-Null Count  Dtype
+---  ------            --------------  -----
+ 0   word              23758 non-null  object
+ 1   gloss             23758 non-null  object
+ 2   fasttext_aligned  23758 non-null  object
+dtypes: object(3)
+memory usage: 557.0+ KB
+None
+                word                                              gloss                                   fasttext_aligned
+23165           wash                      To clean oneself with water .  [-0.053, -1e-04, -0.1509, 0.0405, -0.0974, -0....
+15204       paquebot                   Relating to mail posted at sea .  [-0.0277, 0.026, -0.0646, -0.0057, -0.0527, 0....
+23340   whataboutery  Protesting at inconsistency ; refusing to act ...  [-0.0401, 0.0266, -0.0637, 0.0559, -0.0301, -0...
+18492  seductiveness                    The property of being seductive  [0.032, 0.0312, -0.1793, 0.115, 0.0262, 0.0003...
+2789    bloodthirsty  Thirsty for blood : inexorably violent or eage...  [-0.0307, -0.0602, -0.1888, 0.057, 0.0066, 0.0...
+7781      epenthetic                   Of or pertaining to epenthesis .  [0.0063, 0.0064, -0.0816, 0.0101, -0.0273, -0....
+
+Loading Tokenizer: xlm-roberta-large ...
+Save checkpoint path: ../checkpoints/xlm-roberta-large_11
+Train len 1485, val len: 219
+
+Using device cuda:0 for training...
+Some weights of the model checkpoint at xlm-roberta-large were not used when initializing XLMRobertaModel: ['lm_head.bias', 'lm_head.layer_norm.bias', 'lm_head.layer_norm.weight', 'lm_head.decoder.weight', 'lm_head.dense.weight', 'lm_head.dense.bias']
+- This IS expected if you are initializing XLMRobertaModel from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).
+- This IS NOT expected if you are initializing XLMRobertaModel from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
+
+Creating optimizer with Learning Rate: 0.0001
+
+Training for 150 epochs with early stopping set to 5
+
+
+num_training steps : 222750
+  0%|                                                                                                                                                                                      | 0/222 [00:00<?, ?it/s][Epoch 0 / 150]
+  0%|▋                                                                                                                                                              | 1/222 [02:09<7:57:40, 129.68s/it, loss=0.605]
+Epoch: 0 	Training Loss: 0.574941 	Validation Loss: 0.497571
+Loss improved saving checkpoint...
+[Epoch 1 / 150]
+  1%|█▍                                                                                                                                                             | 2/222 [04:29<8:16:33, 135.42s/it, loss=0.492]
+Epoch: 1 	Training Loss: 0.479162 	Validation Loss: 0.470143
+Loss improved saving checkpoint...
+[Epoch 2 / 150]
+  2%|██▊                                                                                                                                                            | 4/222 [08:50<7:58:04, 131.58s/it, loss=0.458]
+Epoch: 2 	Training Loss: 0.456759 	Validation Loss: 0.459915
+Loss improved saving checkpoint...
+[Epoch 3 / 150]
+  2%|███▌                                                                                                                                                           | 5/222 [11:08<8:03:15, 133.62s/it, loss=0.443]
+Epoch: 3 	Training Loss: 0.443735 	Validation Loss: 0.456923
+Loss improved saving checkpoint...
+[Epoch 4 / 150]
+  3%|█████                                                                                                                                                          | 7/222 [15:18<7:39:21, 128.19s/it, loss=0.434]
+Epoch: 4 	Training Loss: 0.434429 	Validation Loss: 0.454056
+Loss improved saving checkpoint...
+[Epoch 5 / 150]
+  4%|█████▋                                                                                                                                                         | 8/222 [17:30<7:41:56, 129.52s/it, loss=0.427]
+Epoch: 5 	Training Loss: 0.426513 	Validation Loss: 0.454023
+Loss improved saving checkpoint...
+[Epoch 6 / 150]
+  5%|███████                                                                                                                                                       | 10/222 [21:38<7:23:50, 125.62s/it, loss=0.419]
+Epoch: 6 	Training Loss: 0.418816 	Validation Loss: 0.453759
+Loss improved saving checkpoint...
+[Epoch 7 / 150]
+  5%|███████▊                                                                                                                                                      | 11/222 [23:46<7:24:47, 126.48s/it, loss=0.411]
+Epoch: 7 	Training Loss: 0.411797 	Validation Loss: 0.451441
+Loss improved saving checkpoint...
+[Epoch 8 / 150]
+  6%|█████████▎                                                                                                                                                    | 13/222 [27:42<7:03:20, 121.53s/it, loss=0.405]
+Epoch: 8 	Training Loss: 0.404809 	Validation Loss: 0.452303
+[Epoch 9 / 150]
+  6%|█████████▉                                                                                                                                                    | 14/222 [29:40<6:57:32, 120.44s/it, loss=0.397]
+Epoch: 9 	Training Loss: 0.398622 	Validation Loss: 0.455384
+[Epoch 10 / 150]
+  7%|███████████▍                                                                                                                                                  | 16/222 [33:41<6:52:30, 120.15s/it, loss=0.393]
+Epoch: 10 	Training Loss: 0.392825 	Validation Loss: 0.455042
+[Epoch 11 / 150]
+  8%|████████████                                                                                                                                                  | 17/222 [35:45<6:54:35, 121.34s/it, loss=0.385]
+Epoch: 11 	Training Loss: 0.387035 	Validation Loss: 0.456083
+[Epoch 12 / 150]
+  9%|█████████████▌                                                                                                                                                | 19/222 [39:50<6:50:55, 121.46s/it, loss=0.381]
+Epoch: 12 	Training Loss: 0.381943 	Validation Loss: 0.455723
+
+Loss did not reduce for last 5 epochs. Stopped training..
+  9%|█████████████▌                                                                                                                                                | 19/222 [40:34<7:13:30, 128.13s/it, loss=0.381]

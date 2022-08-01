@@ -3,7 +3,7 @@ import os
 import sys
 #os.environ['HF_HOME'] = '/data/users/ugarg/hf/hf_cache/'
 os.environ['TRANSFORMERS_CACHE'] = '/data/users/ugarg/hf/hf_cache/'
-os.environ['CUDA_VISIBLE_DEVICES']='2'
+os.environ['CUDA_VISIBLE_DEVICES']='3'
 
 #sys.path.append('../../..')
 sys.path.append('../')
@@ -47,25 +47,29 @@ from tqdm.auto import tqdm
 
 
 from utils.get_data_and_splits import LoadData
-from utils.params import get_roberta_params, get_xlm_params
+from params import get_roberta_params, get_xlm_params
 from utils.model import Model
 from utils.utils import checkpoint_builder
 
 from CreatePytorchDataset import TrainDataset, ValDataset
 
+
+params = get_xlm_params()
+
+print (f'Params: {params}')
+
 loaddata = LoadData()
 train, val, test = loaddata.get_data(
+        emb_type=params['emb_type'],
         extra_data=False,
         extra_data_path="/data/users/abose1/Capstone/Dictionary_and_Word_Embeddings/data/static_wiki.pkl"       
         ) #removes non-zero,
 
-print (train[['word','gloss', 'fasttext']].info())
+print (params['emb_type'])
+
+print (train[['word','gloss', params['emb_type']]].info())
 
 print (train.sample(6))
-
-params = get_xlm_params()
-print (params)
-
 
 ##################
 #   tokenizer
@@ -77,7 +81,8 @@ model_checkpoint = params['model_checkpoint']
 print(f'\nLoading Tokenizer: {model_checkpoint} ...')
 tokenizer = AutoTokenizer.from_pretrained(model_checkpoint)
 
-save_checkpoint_path = f"../checkpoints/{params['model_checkpoint']}_{params['loss_fn_name']}loss_{params['emb_type']}_embs_{params['use_adapters']}_adapter_{params['extra_data']}_extradata"
+# save_checkpoint_path = f"../checkpoints/{params['model_checkpoint']}_{params['loss_fn_name']}loss_{params['emb_type']}_embs_{params['use_adapters']}_adapter_{params['extra_data']}_extradata"
+save_checkpoint_path = f"../checkpoints/{params['model_checkpoint']}"
 
 def get_path(save_checkpoint_path,i=0):
     if os.path.exists(save_checkpoint_path+'_'+str(i)):
@@ -178,11 +183,14 @@ if params['resume_from_checkpoint']:
     optimizer.load_state_dict(checkpoint['optim_state_dict'])
     print('Optimizer state set.')
 
-progress_bar = tqdm(range(num_training_steps))
+print (f'num_training steps : {num_training_steps}')
+update_steps=1000
+progress_bar = tqdm(range(num_training_steps//update_steps))
 early_stopping_counter = 0
 early_stopping_limit = params['early_stopping_limit']
 best_valid_loss = float('inf')
 
+update=0
 for epoch in range(num_train_epochs):
     train_loss=0
     valid_loss =0
@@ -201,8 +209,11 @@ for epoch in range(num_train_epochs):
         lr_scheduler.step()
         optimizer.zero_grad()
         train_loss+= ((1 / (batch_idx + 1)) * (loss.data.item() - train_loss))
-        # progress_bar.update(1)
-        # progress_bar.set_postfix(loss = train_loss)
+
+        update+=1
+        if update % update_steps == 0:
+            progress_bar.update(1)
+            progress_bar.set_postfix(loss = train_loss)
         
         
     
