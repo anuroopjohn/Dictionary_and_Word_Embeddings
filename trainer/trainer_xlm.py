@@ -60,7 +60,7 @@ print (f'Params: {params}')
 
 loaddata = LoadData()
 train, val, test = loaddata.get_data(
-        emb_type=params['emb_type'],
+        params=params,
         extra_data=False,
         extra_data_path="/data/users/abose1/Capstone/Dictionary_and_Word_Embeddings/data/static_wiki.pkl"       
         ) #removes non-zero,
@@ -82,7 +82,7 @@ print(f'\nLoading Tokenizer: {model_checkpoint} ...')
 tokenizer = AutoTokenizer.from_pretrained(model_checkpoint)
 
 # save_checkpoint_path = f"../checkpoints/{params['model_checkpoint']}_{params['loss_fn_name']}loss_{params['emb_type']}_embs_{params['use_adapters']}_adapter_{params['extra_data']}_extradata"
-save_checkpoint_path = f"../checkpoints/{params['model_checkpoint']}"
+save_checkpoint_path = f"../checkpoints/{params['model_checkpoint']}_{params['emb_type']}"
 
 def get_path(save_checkpoint_path,i=0):
     if os.path.exists(save_checkpoint_path+'_'+str(i)):
@@ -96,9 +96,11 @@ os.mkdir(save_checkpoint_path)
 
 print(f'Save checkpoint path: {save_checkpoint_path}')
 
+import shutil
 import json
 json.dump(params,open(save_checkpoint_path+'/params.json','w'),indent=4)
-
+shutil.copy('trainer_xlm.py',save_checkpoint_path)
+shutil.copy('../utils/model.py',save_checkpoint_path)
 
 train_dataset = TrainDataset(
                     train, 
@@ -152,6 +154,18 @@ model.to(params['device'])
 # print (model)
 
 
+for name, param in model.named_parameters():
+   if name.startswith("base.encoder.layer") and int(name.split('.')[3])<6:
+        param.requires_grad = False
+   elif name.startswith('base.embeddings'):
+        param.requires_grad = False
+   elif name.startswith('base.pooler'):
+        param.requires_grad = False
+
+def count_parameters(model):
+    return sum(p.numel() for p in model.parameters() if p.requires_grad)
+
+print (f'Model parameters count: {count_parameters(model)}')
 ####################################
 #   Create Optimizer
 ####################################
@@ -191,6 +205,9 @@ early_stopping_limit = params['early_stopping_limit']
 best_valid_loss = float('inf')
 
 update=0
+
+scaler = torch.cuda.amp.GradScaler()
+
 for epoch in range(num_train_epochs):
     train_loss=0
     valid_loss =0
