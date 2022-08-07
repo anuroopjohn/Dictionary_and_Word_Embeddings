@@ -10,7 +10,7 @@ import faiss
 
 class GetPredictions:
     
-    def __init__(self,save_checkpoint_path, model_type = 'monolingual'):
+    def __init__(self, save_checkpoint_path, model_type = 'monolingual'):
         
         # if model_type == 'multilingual':
         #     self.params = get_xlm_params()
