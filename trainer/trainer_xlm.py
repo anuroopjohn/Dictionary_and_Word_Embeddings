@@ -3,7 +3,7 @@ import os
 import sys
 #os.environ['HF_HOME'] = '/data/users/ugarg/hf/hf_cache/'
 os.environ['TRANSFORMERS_CACHE'] = '/data/users/ugarg/hf/hf_cache/'
-os.environ['CUDA_VISIBLE_DEVICES']='3'
+os.environ['CUDA_VISIBLE_DEVICES']='4'
 
 #sys.path.append('../../..')
 sys.path.append('../')
@@ -218,11 +218,20 @@ for epoch in range(num_train_epochs):
     # Training
     model.train()
     for batch_idx, batch in enumerate(train_dataloader):
-        loss, out, actual = model(batch)
-        #loss = outputs.loss
-        loss.backward(loss)#, retain_graph = True)
 
-        optimizer.step()
+        with torch.cuda.amp.autocast():#new
+            loss, out, actual = model(batch)
+
+        # loss, out, actual = model(batch)
+        #loss = outputs.loss
+        # loss.backward(loss)#, retain_graph = True)
+
+        scaler.scale(loss).backward()
+        scaler.step(optimizer)
+        scaler.update()
+
+        # optimizer.step()
+        
         lr_scheduler.step()
         optimizer.zero_grad()
         train_loss+= ((1 / (batch_idx + 1)) * (loss.data.item() - train_loss))
