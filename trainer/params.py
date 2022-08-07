@@ -34,10 +34,10 @@ def get_xlm_params():
         'early_stopping_limit': 5,
         'device': 'cuda:0',
         'loss_fn_name': 'cosine',
-        'emb_type': 'fasttext_aligned',
+        'emb_type': 'xlm-roberta-large',#'bert-base-uncased' 768,'fasttext-aligned' 300, fasttext 300, muse 300
         'use_adapters': True,
         'resume_from_checkpoint' : False,
-        'output_size': 300,
+        'output_size': 1024,
         'knn_measure' : 'cosine',
         'num_warmup_steps':300,
         'extra_data':False,
