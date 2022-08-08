@@ -51,7 +51,7 @@ class Model(torch.nn.Module):
         
         pools = pools['last_hidden_state']
         # pools = torch.stack(pools['hidden_states']).permute(1,2,3,0)
-        # pools = pools['hidden_states'][20]
+        # pools = pools['hidden_states'][0]
 
         # pools = self.layer_weights(pools).squeeze(-1)
         # print (pools.shape)
