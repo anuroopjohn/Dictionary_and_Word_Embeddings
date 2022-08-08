@@ -56,7 +56,7 @@ seed_everything(42)
 
 # project_path = "/data/users/ugarg/capstone/code/Dictionary_and_Word_Embeddings-main/gloss2word/v2/"
 
-def prep_model(params,save_checkpoint_path=None):
+def prep_model(params, save_checkpoint_path=None, index_name = None):
 
 
 
@@ -89,16 +89,16 @@ def prep_model(params,save_checkpoint_path=None):
     print('Loading Checkpoint ...')
     checkpoint = torch.load(save_checkpoint_path, map_location=params['device'])
     print('Setting Models state to checkpoint...')
+    
     #assert checkpoint['model_params'] == model_params
     model.load_state_dict(checkpoint['model_state_dict'])
     print('Model state set.')
     #optimizer.load_state_dict(checkpoint['optim_state_dict'])
     #print('Optimizer state set.')
-
-
+    
     data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
-    faiss_index = faiss.read_index(f"../data/clean_data/faiss_index_{params['emb_type']}_{params['knn_measure']}")
-    faiss_idx_index_to_word_lookup = joblib.load('../data/clean_data/faiss_idx_index_to_word_lookup.joblib')#faiss_idx_index_to_word_lookup.joblib')
+    faiss_index = faiss.read_index(f'../data/clean_data/faiss_index/{index_name}/index_{emb_type}_{knn_measure}')
+    faiss_idx_index_to_word_lookup = joblib.load(f'../data/clean_data/faiss_index/{index_name}/word_lookup_{emb_type}_{knn_measure}.joblib')#faiss_idx_index_to_word_lookup.joblib')
     print (f'Index dict len: {len(faiss_idx_index_to_word_lookup)}')
     
     sim = Similarity()

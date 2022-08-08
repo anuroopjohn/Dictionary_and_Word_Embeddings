@@ -19,25 +19,25 @@ import joblib
 
 class LoadData:
 
-    def get_data(self,emb_type, extra_data_path=None, extra_data=False):
+    def get_data(self, params, extra_data_path=None, extra_data=False):
 
         if extra_data and not extra_data_path:
             raise ValueError('No extra_data path specified')
 
-        
+        print (params['output_size'],type(params['output_size']))
         #train
-        d = np.array(read_pickle_file(proc_paths['train']))
-        mask = np.array([(d[i][emb_type] != np.array([0]*300).astype('float32')).all() for i in tqdm(range(len(d)))])
+        d = np.array(read_pickle_file(proc_paths[params['dataset']]['train']))
+        mask = np.array([(d[i][params['emb_type']] != np.array([0]*params['output_size']).astype('float32')).all() for i in tqdm(range(len(d)))])
         train = pd.DataFrame.from_records(d[mask])
 
         #val
-        d = np.array(read_pickle_file(proc_paths['dev']))
-        mask = np.array([(d[i][emb_type] != np.array([0]*300).astype('float32')).all() for i in tqdm(range(len(d)))])
+        d = np.array(read_pickle_file(proc_paths[params['dataset']]['dev']))
+        mask = np.array([(d[i][params['emb_type']] != np.array([0]*params['output_size']).astype('float32')).all() for i in tqdm(range(len(d)))])
         val = pd.DataFrame.from_records(d[mask])
 
         #test
-        d = np.array(read_pickle_file(proc_paths['test']))
-        mask = np.array([(d[i][emb_type] != np.array([0]*300).astype('float32')).all() for i in tqdm(range(len(d)))])
+        d = np.array(read_pickle_file(proc_paths[params['dataset']]['test']))
+        mask = np.array([(d[i][params['emb_type']] != np.array([0]*params['output_size']).astype('float32')).all() for i in tqdm(range(len(d)))])
         test = pd.DataFrame.from_records(d[mask])
         
                 
@@ -46,7 +46,7 @@ class LoadData:
             with open(extra_data_path, "rb") as f:
                 extra_data = np.array(cPickle.load(f))
 
-            zero_array = np.array([(extra_data[i][emb_type] != np.array([0]*300).astype('float32')).all() for i in tqdm(range(len(extra_data)))])
+            zero_array = np.array([(extra_data[i][params['emb_type']] != np.array([0]*params['output_size']).astype('float32')).all() for i in tqdm(range(len(extra_data)))])
 
             extra_data = pd.DataFrame.from_records(extra_data)
 
@@ -83,9 +83,9 @@ class LoadData:
 #         test.columns = ['word','gloss','fasttext']
         
     
-        train = train[['word', 'gloss', emb_type]]
-        val = val[['word', 'gloss', emb_type]]
-        test = test[['word', 'gloss', emb_type]]
+        train = train[['word', 'gloss', params['emb_type']]]
+        val = val[['word', 'gloss', params['emb_type']]]
+        test = test[['word', 'gloss', params['emb_type']]]
         
         print(f'Len of Train before drop duplicates - {len(train)}')
         print(f'Len of Val before drop duplicates - {len(val)}')
