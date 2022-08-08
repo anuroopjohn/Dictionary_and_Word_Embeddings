@@ -27,7 +27,7 @@ def seed_everything(seed: int):
     
 
 
-def load_data():
+def load_data(data_files):
     """
     desc: 
         Load dataset for creating the index
@@ -39,9 +39,10 @@ def load_data():
     seed_everything(42)
     
     # train = joblib.load('../data/clean_data/train.joblib')
-    paths = ['../data/clean_data/train.joblib','../data/clean_data/val.joblib','../data/clean_data/test.joblib',
-            '../data/clean_data/de_wiki_muse.joblib'][1:-1]
-    data = [joblib.load(p) for p in paths]
+
+    print (f'loading files: {data_files}')
+
+    data = [joblib.load(p) for p in data_files]
 
     # data = pd.concat([train, val, test], axis =0).drop_duplicates(['gloss','word']).reset_index(drop = True)
 
@@ -50,7 +51,7 @@ def load_data():
     return data
 
 
-def create_and_store_index(emb_type, knn_measure):
+def create_and_store_index(data_files, emb_type, knn_measure, index_name):
     """
     desc:
         Create the FAISS index using one of emb_type -> [l2, cosine, dot]
@@ -65,10 +66,11 @@ def create_and_store_index(emb_type, knn_measure):
         knn_measure: str: measure to find nearest neighbours
         unique_mapping: bool: same words multiple times considered as single index. 
                             True for static, False for contextual embeddings
+        index_name: str: name for saving the index folder
         
     """
     print(f'Loading Data for Indexing...')
-    data = load_data()
+    data = load_data(data_files)
     
     print(f'Creating FAISS Index...')
 
@@ -97,8 +99,11 @@ def create_and_store_index(emb_type, knn_measure):
     sim = Similarity()
     faiss_index = sim.create_index(knn_measure, embs)
     
-    faiss.write_index(faiss_index, f'../data/clean_data/faiss_index_{emb_type}_{knn_measure}')
-    joblib.dump(faiss_idx_index_to_word_lookup, '../data/clean_data/faiss_idx_index_to_word_lookup.joblib')
+
+    os.mkdir(f'../data/clean_data/faiss_index/{index_name}')
+
+    faiss.write_index(faiss_index, f'../data/clean_data/faiss_index/{index_name}/index_{emb_type}_{knn_measure}')
+    joblib.dump(faiss_idx_index_to_word_lookup, f'../data/clean_data/faiss_index/{index_name}/word_lookup_{emb_type}_{knn_measure}.joblib')
     
     print(f'FAISS Index Creation Done...')
     
