@@ -5,7 +5,7 @@ import numpy as np
 import os
 from zipfile import ZipFile
 import urllib.request
-
+import random
 
 # glove.6B.zip
 def download_glove_model(download_url, filename='glove.6B.zip'):
@@ -74,16 +74,23 @@ def extract_corresponding_glove_embeddings(pkl_data, embed_dict, output_filepath
     helper.write_pickle_file(pkl_data,output_filepath)
 
 if __name__ == "__main__":
-    train_pkl = helper.read_pickle_file(config.proc_paths['train'])
-    dev_pkl = helper.read_pickle_file(config.proc_paths['dev'])
-    test_pkl = helper.read_pickle_file(config.proc_paths['test'])
+    
+    params = {'dataset':'codwoe'}
+
+    train_pkl = helper.read_pickle_file(config.proc_paths[params['dataset']]['train'])
+    dev_pkl = helper.read_pickle_file(config.proc_paths[params['dataset']]['dev'])
+    test_pkl = helper.read_pickle_file(config.proc_paths[params['dataset']]['test'])
+
     filename = "glove.6B.zip"
     glove_url = 'https://nlp.stanford.edu/data/glove.6B.zip'
     glove_42B_url = 'https://nlp.stanford.edu/data/glove.42B.300d.zip'
+    glove_840B_url = 'https://nlp.stanford.edu/data/glove.840B.300d.zip'
     
-    download_glove_model(download_url=glove_42B_url, filename=filename)
+    download_glove_model(download_url=glove_840B_url, filename=filename)
 
     embed_dict = make_glove_dictionary()
+    
+    print (random.sample(embed_dict.keys(),10))
 
     train_outfile = "./../data/train_glove.pkl"
     dev_outfile = "./../data/dev_glove.pkl"
