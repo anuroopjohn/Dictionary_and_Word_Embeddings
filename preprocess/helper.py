@@ -9,6 +9,7 @@ import pandas as pd
 import json
 import pickle
 import preprocess.config as config
+from sklearn.model_selection import train_test_split
 
 import random
 random.seed(1234)
@@ -99,7 +100,18 @@ def prepare_splits(mode='dev'):
     with open(config.proc_paths[mode], 'wb') as outfile:
         pickle.dump(db, outfile)
     
+def prepare_wiktionary_data():
+    
+    with open("../data/full_dataset/static_wiki.pkl", 'rb') as f:
+        en_wiki = pickle.load(f)
 
+    train, test = train_test_split(en_wiki, test_size=141099, random_state=44)
+    test, val = train_test_split(test, test_size=41099, random_state=44)
+    print (len(train),len(test),len(val))
+
+    write_pickle_file(train,config.proc_paths['wikt']['train'])
+    write_pickle_file(val,config.proc_paths['wikt']['dev'])
+    write_pickle_file(test,config.proc_paths['wikt']['test'])
 
 if __name__=='__main__':
     # process_rawdf_to_pkl()
@@ -108,4 +120,5 @@ if __name__=='__main__':
     # prepare_splits('train')
     # prepare_splits('dev')
     # prepare_splits('test')
+    # prepare_wiktionary_data()
     pass

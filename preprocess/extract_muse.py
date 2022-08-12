@@ -36,9 +36,9 @@ def add_muse_to_data(data, embs, word2id):
     for idx,i in enumerate(data):
         word = i['word'].lower()
         if word in word2id:
-            data[idx]['muse'] = [embs[word2id[word]]]
+            data[idx]['muse'] = embs[word2id[word]]
         else:
-            data[idx]['muse'] = [zero_vec]
+            data[idx]['muse'] = zero_vec
             not_found+=[word]
     print (f'{len(not_found)} not found in {len(data)}')
     return data

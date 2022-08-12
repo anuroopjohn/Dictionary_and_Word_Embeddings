@@ -24,6 +24,7 @@ def get_roberta_params():
 def get_xlm_params():
     
     return {
+        'dataset':'codwoe',
         'model_checkpoint' : "xlm-roberta-large",
         'source_column': 'gloss',
         'max_len': 150,
