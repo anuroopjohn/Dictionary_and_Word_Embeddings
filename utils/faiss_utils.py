@@ -73,7 +73,7 @@ def create_and_store_index(data_files, emb_type, knn_measure, index_name):
     data = load_data(data_files)
     
     print(f'Creating FAISS Index...')
-
+    print (data)
     #data['glove'] = data['glove'].apply(lambda x: x.reshape(1,-1))
     data[emb_type] = data[emb_type].apply(lambda x: x.reshape(1,-1))
 
